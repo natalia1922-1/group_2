@@ -16,3 +16,10 @@ def format_data_right_aligned(data):
 input_data = [[1, 2, 10, 150], [10, 2, 1000, 2], [1, 120, 1, 1000]]
 output = format_data_right_aligned(input_data)
 print(output)
+
+def test_format_data_right_aligned():
+    input_data = [[[1, 2, 10, 150], [10, 2, 1000, 2], [1, 120, 1, 1000]]
+    expected_output = "[[1,   2   10  150\n 10    2 1000    2\n  1  120    1 1000"
+    assert format_data_right_aligned(input_data) == expected_output
+
+test_format_data_right_aligned()
