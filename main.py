@@ -1,12 +1,14 @@
 def porzadkuj_do_lewej(input_data):
     szerokosc_kolumny = [max(map(len, map(str, col))) for col in zip(*input_data)]  # maksymalna długość kolumn
 
+    # tworzenie uporządkowania i wyrównania do lewej
     do_porzadkowania = [
         ['{:<{}}'.format(str(value), szerokosc_kolumny[i])
         for i, value in enumerate(row)]
         for row in input_data
                         ]
 
+    # wyniki końcowe
     result = '\n'.join([' '.join(row) + (' ' if i % 2 else '') for i, row in enumerate(do_porzadkowania)])
 
     return result
