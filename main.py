@@ -1,13 +1,15 @@
-def porzadkuj_do_lewej(input):
-    szerokosc_kolumny = [max(len(str(row[i])) for row in input) for i in range(len(input[0]))]
-    output = []
+def porzadkuj_do_lewej(input_data):
+    szerokosc_kolumny = [max(map(len, map(str, col))) for col in zip(*input_data)]  # maksymalna długość kolumn
 
-    for row in input:
-        kolumna = [str(value).ljust(width) for value, width in zip(row, szerokosc_kolumny)]
-        output.append(kolumna)
+    do_porzadkowania = [
+        ['{:<{}}'.format(str(value), szerokosc_kolumny[i])
+        for i, value in enumerate(row)]
+        for row in input_data
+                        ]
 
-    wiersz = [' '.join(row) for row in output]
-    return '\n'.join(wiersz)
+    result = '\n'.join([' '.join(row) + (' ' if i % 2 else '') for i, row in enumerate(do_porzadkowania)])
+
+    return result
 
 
 input_data = [[1, 2, 10, 150], [10, 2, 1000, 2], [1, 120, 1, 1000]]
