@@ -37,27 +37,14 @@ def not_found(url, error=None):
     resp.status_code = 404
     return resp
 
-@app.route("/titles/<isbn>", methods = ['GET'])
+
+@app.route("/titles/<isbn>", methods=['GET'])
 def get_all(isbn):
     for book in data['books']:
         if book['isbn'] == isbn:
             return jsonify(book)
 
     return not_found(url=isbn)
-
-@app.route("/titles/<isbn>", methods = ['PUT'])
-def put_auth(isbn=None):
-    if 'author' in request.args:
-        for book in data['books']:
-            if book['isbn'] == isbn:
-                book['author'] = request.args['author']
-                return "ok"
-
-        return "nie ok"
-
-
-
-    return "Hello from PUT"
 
 @app.route("/descriptions/<expression>")
 def get_descriptions(expression):
@@ -70,3 +57,17 @@ def get_descriptions(expression):
             })
 
     return jsonify(result)
+
+@app.route("/titles/<isbn>", methods=['PUT'])
+def put_auth(isbn):
+    new_author = request.args.get('author')
+
+    if not new_author:
+        return jsonify('Nalezy podac autora jako argument.'), 400
+
+    for book in data['books']:
+        if book['isbn'] == isbn:
+            book['author'] = new_author
+            return jsonify(f'Autor dla numeru ISBN {isbn} zostal zaaktualizowany na {new_author}.'), 200
+
+    return jsonify(f'Ksiazka o numerze ISBN {isbn} nie zostala znaleziona.'), 404
